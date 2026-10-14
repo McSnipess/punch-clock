@@ -1,0 +1,11 @@
+{
+  "name": "Punch Clock",
+  "short_name": "Punch Clock",
+  "description": "A simple personal time clock",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0f14",
+  "theme_color": "#111318",
+  "icons": []
+}

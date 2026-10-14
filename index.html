@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111318">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Punch Clock">
+<title>Punch Clock</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{color-scheme:dark;--bg:#0d0f14;--panel:#171a22;--panel2:#202430;--text:#f5f6fa;--muted:#9ba3b4;--line:#2b3040;--accent:#8b7cff;--green:#4fdb9a;--red:#ff727f;--shadow:0 18px 45px #0004}
+:root.light{color-scheme:light;--bg:#f3f5fa;--panel:#fff;--panel2:#edf0f7;--text:#161923;--muted:#656d7d;--line:#dfe3ed;--accent:#6554ed;--green:#11865b;--red:#c93d50;--shadow:0 18px 45px #17203a10}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;padding:env(safe-area-inset-top) 16px env(safe-area-inset-bottom)}
+.app{max-width:560px;margin:0 auto;padding:22px 0 34px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}.brand{display:flex;gap:11px;align-items:center}.logo{width:42px;height:42px;border-radius:14px;background:var(--accent);display:grid;place-items:center;color:white;font-size:23px;font-weight:800}.eyebrow{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.13em}.brand h1{font-size:21px;margin:0}.iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:13px;width:44px;height:44px;font-size:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow)}.clock{text-align:center;padding:28px 18px}.status{display:inline-flex;align-items:center;gap:8px;background:var(--panel2);padding:7px 12px;border-radius:100px;color:var(--muted);font-size:13px;font-weight:650}.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}.dot.on{background:var(--green);box-shadow:0 0 0 4px color-mix(in srgb,var(--green) 16%,transparent)}.time{font-size:clamp(43px,12vw,65px);letter-spacing:-.055em;font-weight:750;margin:19px 0 0;font-variant-numeric:tabular-nums}.date{color:var(--muted);margin-top:2px}.elapsed{margin:22px 0 18px}.elapsed .label{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.elapsed strong{display:block;font-size:26px;margin-top:4px;font-variant-numeric:tabular-nums}.punch{border:0;border-radius:17px;background:var(--accent);color:#fff;width:100%;min-height:61px;font-size:17px;font-weight:750;cursor:pointer;box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 28%,transparent)}.punch.out{background:var(--panel2);color:var(--text);border:1px solid var(--line);box-shadow:none}.hint{color:var(--muted);font-size:12px;margin:13px 0 0}.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:0 0 15px}.sectionhead h2{font-size:16px;margin:0}.sectionhead span{font-size:12px;color:var(--muted)}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:17px}.stat .slabel{font-size:12px;color:var(--muted)}.stat .value{font-size:25px;font-weight:750;margin-top:5px;font-variant-numeric:tabular-nums}.entry{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-top:1px solid var(--line)}.entry:first-of-type{border-top:0}.entrymark{width:36px;height:36px;flex:0 0 36px;border-radius:12px;background:var(--panel2);display:grid;place-items:center}.entrymain{min-width:0;flex:1}.entrytitle{font-weight:700}.entrysub{color:var(--muted);font-size:12px;margin-top:3px}.entryhours{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}.delete{background:none;border:0;color:var(--muted);padding:6px 0 0 8px;font-size:16px}.empty{text-align:center;color:var(--muted);padding:20px 4px;font-size:14px}.rowbtn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 13px;border-radius:12px;font-weight:650}.tools{display:flex;gap:8px;flex-wrap:wrap}.foot{text-align:center;color:var(--muted);font-size:12px;padding:5px 10px 18px}.notice{display:none;background:var(--panel2);padding:12px;border-radius:12px;font-size:13px;margin-bottom:15px}.notice.show{display:block}.confirm{position:fixed;inset:0;background:#0008;display:none;place-items:center;padding:20px;z-index:10}.confirm.show{display:grid}.dialog{width:100%;max-width:350px;background:var(--panel);border:1px solid var(--line);padding:22px;border-radius:22px}.dialog h3{margin:0 0 8px}.dialog p{color:var(--muted);font-size:14px}.dialogbuttons{display:flex;gap:9px;margin-top:18px}.dialogbuttons button{flex:1}
+@media(min-width:520px){.app{padding-top:32px}.clock{padding:34px}}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="top">
+ <div class="brand"><div class="logo">P</div><div><div class="eyebrow">Simple time tracking</div><h1>Punch Clock</h1></div></div>
+ <button id="themeBtn" class="iconbtn" aria-label="Toggle light and dark mode" title="Toggle theme">☼</button>
+</header>
+<div id="notice" class="notice"></div>
+<section class="card clock">
+ <div class="status"><span id="dot" class="dot"></span><span id="statusText">Not clocked in</span></div>
+ <div class="time" id="liveTime">--:--</div>
+ <div class="date" id="liveDate">Loading date…</div>
+ <div class="elapsed"><div class="label">Current shift</div><strong id="elapsed">00:00:00</strong></div>
+ <button id="punchBtn" class="punch">Clock in</button>
+ <p class="hint">Uses your device’s current date and time</p>
+</section>
+<div class="stats">
+ <div class="stat"><div class="slabel">This week</div><div class="value" id="weekTotal">0h 00m</div></div>
+ <div class="stat"><div class="slabel">This month</div><div class="value" id="monthTotal">0h 00m</div></div>
+</div>
+<section class="card">
+ <div class="sectionhead"><h2>Recent shifts</h2><span id="shiftCount">0 shifts</span></div>
+ <div id="entries"></div>
+ <div class="tools" style="margin-top:15px">
+  <button class="rowbtn" id="exportBtn">Export CSV</button>
+  <button class="rowbtn" id="clearBtn">Clear history</button>
+ </div>
+</section>
+<div class="foot">Your punches stay on this device. Export a backup regularly.</div>
+</main>
+<div id="confirm" class="confirm" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+ <div class="dialog"><h3 id="dialogTitle">Clear all history?</h3><p>This permanently deletes saved shifts from this device. Export a CSV first if you need a backup.</p><div class="dialogbuttons"><button class="rowbtn" id="cancelClear">Cancel</button><button class="rowbtn" id="confirmClear" style="background:var(--red);color:white;border:0">Delete all</button></div></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const KEY='punch-clock-v1', THEME='punch-clock-theme-v1';
+let data={active:null,shifts:[]};
+try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved&&Array.isArray(saved.shifts))data=saved;}catch(e){}
+let theme=localStorage.getItem(THEME)||'dark';
+function applyTheme(){document.documentElement.classList.toggle('light',theme==='light');$('themeBtn').textContent=theme==='light'?'☾':'☼';document.querySelector('meta[name="theme-color"]').content=theme==='light'?'#f3f5fa':'#111318';}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));}
+function pad(n){return String(n).padStart(2,'0')}
+function timeText(d){return new Intl.DateTimeFormat(undefined,{hour:'numeric',minute:'2-digit',second:'2-digit'}).format(d)}
+function dateText(d,opts={weekday:'long',month:'long',day:'numeric',year:'numeric'}){return new Intl.DateTimeFormat(undefined,opts).format(d)}
+function duration(ms){ms=Math.max(0,ms);let s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return `${pad(h)}:${pad(m)}:${pad(sec)}`}
+function compact(ms){let mins=Math.floor(Math.max(0,ms)/60000),h=Math.floor(mins/60),m=mins%60;return `${h}h ${pad(m)}m`}
+function shiftMs(s,now=Date.now()){return Math.max(0,(s.end??now)-s.start)}
+function totals(){const now=new Date(),weekStart=new Date(now);weekStart.setHours(0,0,0,0);const day=(weekStart.getDay()+6)%7;weekStart.setDate(weekStart.getDate()-day);const monthStart=new Date(now.getFullYear(),now.getMonth(),1);let week=0,month=0;for(const s of data.shifts){const end=s.end??Date.now();const start=Math.max(s.start,weekStart.getTime());if(end>start)week+=end-start;const ms=Math.max(s.start,monthStart.getTime());if(end>ms)month+=end-ms;}if(data.active){const s=data.active;week+=Math.max(0,Date.now()-Math.max(s,weekStart.getTime()));month+=Math.max(0,Date.now()-Math.max(s,monthStart.getTime()));}return {week,month}}
+function render(){const now=new Date();$('liveTime').textContent=timeText(now);$('liveDate').textContent=dateText(now);const active=data.active!==null;$('dot').classList.toggle('on',active);$('statusText').textContent=active?'Currently clocked in':'Not clocked in';$('punchBtn').textContent=active?'Clock out':'Clock in';$('punchBtn').classList.toggle('out',active);$('elapsed').textContent=active?duration(Date.now()-data.active):'00:00:00';const t=totals();$('weekTotal').textContent=compact(t.week);$('monthTotal').textContent=compact(t.month);$('shiftCount').textContent=`${data.shifts.length} shift${data.shifts.length===1?'':'s'}`;renderEntries();}
+function renderEntries(){const root=$('entries');root.replaceChildren();if(!data.shifts.length){root.innerHTML='<div class="empty">No completed shifts yet. Press “Clock in” when you start work.</div>';return;}data.shifts.slice().reverse().slice(0,30).forEach((s,revIndex)=>{const index=data.shifts.length-1-revIndex;const start=new Date(s.start),end=new Date(s.end);const item=document.createElement('div');item.className='entry';const mark=document.createElement('div');mark.className='entrymark';mark.textContent='✓';const main=document.createElement('div');main.className='entrymain';const title=document.createElement('div');title.className='entrytitle';title.textContent=dateText(start,{weekday:'short',month:'short',day:'numeric'});const sub=document.createElement('div');sub.className='entrysub';sub.textContent=`${timeText(start)} – ${timeText(end)}`;main.append(title,sub);const hours=document.createElement('div');hours.className='entryhours';hours.textContent=compact(s.end-s.start);const del=document.createElement('button');del.className='delete';del.textContent='×';del.title='Delete this shift';del.setAttribute('aria-label','Delete shift');del.onclick=()=>{if(confirm('Delete this shift?')){data.shifts.splice(index,1);save();render();}};item.append(mark,main,hours,del);root.append(item);});}
+$('punchBtn').onclick=()=>{const now=Date.now();if(data.active===null){data.active=now;save();showNotice('Clocked in at '+timeText(new Date(now))+'.');}else{if(now<data.active){showNotice('Your device time appears earlier than your clock-in time. Check your phone date and time settings.');return;}data.shifts.push({start:data.active,end:now});data.active=null;save();showNotice('Shift saved. Total: '+compact(data.shifts[data.shifts.length-1].end-data.shifts[data.shifts.length-1].start)+'.');}render();};
+$('themeBtn').onclick=()=>{theme=theme==='dark'?'light':'dark';localStorage.setItem(THEME,theme);applyTheme();};
+function showNotice(msg){$('notice').textContent=msg;$('notice').classList.add('show');}
+$('exportBtn').onclick=()=>{const rows=[['Date','Clock in','Clock out','Hours decimal','Duration']];for(const s of data.shifts){const a=new Date(s.start),b=new Date(s.end);rows.push([dateText(a,{year:'numeric',month:'2-digit',day:'2-digit'}),timeText(a),timeText(b),((s.end-s.start)/3600000).toFixed(2),compact(s.end-s.start)]);}if(data.active!==null)rows.push([dateText(new Date(data.active),{year:'numeric',month:'2-digit',day:'2-digit'}),timeText(new Date(data.active)),'IN PROGRESS','','']);const csv=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='punch-clock-hours.csv';a.click();URL.revokeObjectURL(url);};
+$('clearBtn').onclick=()=>$('confirm').classList.add('show');$('cancelClear').onclick=()=>$('confirm').classList.remove('show');$('confirmClear').onclick=()=>{data={active:null,shifts:[]};save();render();$('confirm').classList.remove('show');showNotice('Shift history cleared.');};
+applyTheme();render();setInterval(render,1000);
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>
