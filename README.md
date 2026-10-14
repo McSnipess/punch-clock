@@ -8,6 +8,9 @@ A free, mobile-friendly punch clock for GitHub Pages.
 - Saves shifts in browser storage on your device
 - Live shift timer, weekly and monthly totals
 - Dark and light themes
+- Add previous shifts manually
+- Edit or delete saved shifts
+- Optional notes for each shift
 - CSV export
 - Basic offline support after the first load
 
